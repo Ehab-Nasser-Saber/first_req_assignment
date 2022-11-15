@@ -122,30 +122,37 @@ class _MyHomePageState extends State<MyHomePage> {
           SizedBox(
             height:
                 screenHeight < 600 ? screenHeight * 0.4 : screenHeight * 0.55,
-            child: ListView.builder(
-                itemBuilder: (ctx, index) {
-                  var answersIndex =
-                      _questions[_questionIndex]['answers'] as List;
-                  return Answer(() {
-                    setState(() {
-                      for (int i = 0; i < 4; i++) {
-                        answersIndex[i]['selected'] = false;
-                      }
-                      isSelected = true;
-                      _score = answersIndex[index]['score'];
-                      answersIndex[index]['selected'] = true;
-                    });
-                  },
-                      answersIndex[index]['text'],
-                      answersIndex[index]['selected']
-                          ? const Color(0xff8B80B6)
-                          : Colors.white,
-                      answersIndex[index]['selected']
-                          ? Colors.white
-                          : const Color(0xff545B6C));
-                  ;
+            child: ListView.separated(
+              itemBuilder: (ctx, index) {
+                var answersIndex =
+                    _questions[_questionIndex]['answers'] as List;
+                return Answer(() {
+                  setState(() {
+                    for (int i = 0; i < 4; i++) {
+                      answersIndex[i]['selected'] = false;
+                    }
+                    isSelected = true;
+                    _score = answersIndex[index]['score'];
+                    answersIndex[index]['selected'] = true;
+                  });
                 },
-                itemCount: 4),
+                    answersIndex[index]['text'],
+                    answersIndex[index]['selected']
+                        ? const Color(0xff8B80B6)
+                        : Colors.white,
+                    answersIndex[index]['selected']
+                        ? Colors.white
+                        : const Color(0xff545B6C));
+              },
+              itemCount: 4,
+              separatorBuilder: (BuildContext context, int index) {
+                return Divider(
+                  color: Colors.black,
+                  height: 2,
+                  thickness: 1,
+                );
+              },
+            ),
           ),
           /* This is the map that got replaced by listview.
 
