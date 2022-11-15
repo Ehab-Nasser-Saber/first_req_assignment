@@ -82,6 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var answersIndex = _questions[_questionIndex]['answers'] as List;
     var screenHeight = MediaQuery.of(context).size.height;
     //var screenWidth = MediaQuery.of(context).size.height;
     return Scaffold(
@@ -124,8 +125,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 screenHeight < 600 ? screenHeight * 0.4 : screenHeight * 0.55,
             child: ListView.separated(
               itemBuilder: (ctx, index) {
-                var answersIndex =
-                    _questions[_questionIndex]['answers'] as List;
+                // var answersIndex =
+                //     _questions[_questionIndex]['answers'] as List;
                 return Answer(() {
                   setState(() {
                     for (int i = 0; i < 4; i++) {
@@ -144,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         ? Colors.white
                         : const Color(0xff545B6C));
               },
-              itemCount: 4,
+              itemCount: answersIndex.length,
               separatorBuilder: (BuildContext context, int index) {
                 return Divider(
                   color: Colors.black,
