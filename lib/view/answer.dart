@@ -24,7 +24,7 @@ class Answer extends StatelessWidget {
           width: double.infinity,
           height: 80,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: BorderRadius.all(Radius.circular(5)),
             color: color,
           ),
           child: Row(
@@ -35,7 +35,10 @@ class Answer extends StatelessWidget {
               // ),
               Text(
                 answerText,
-                style: TextStyle(color: textColor, fontSize: 20),
+                style: TextStyle(
+                    color: textColor,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
               ),
             ],
             mainAxisAlignment: MainAxisAlignment.center,

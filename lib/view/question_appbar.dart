@@ -8,9 +8,10 @@ class QuestionAppBar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      leadingWidth: 20,
       title: const Center(
         child: Text('English for beginners',
-            style: TextStyle(color: Colors.black)),
+            style: TextStyle(color: Color(0xff495163))),
       ),
       backgroundColor: Colors.white,
       automaticallyImplyLeading: true,
@@ -18,13 +19,13 @@ class QuestionAppBar extends StatelessWidget {
         IconButton(
           onPressed: () {},
           icon: const Icon(Icons.question_mark),
-          color: Colors.grey,
+          color: Color(0xffDBDDE1),
         )
       ],
       leading: IconButton(
         icon: const Icon(
           Icons.arrow_back,
-          color: Colors.grey,
+          color: Color(0xffDBDDE1),
         ),
         onPressed: () {},
       ),

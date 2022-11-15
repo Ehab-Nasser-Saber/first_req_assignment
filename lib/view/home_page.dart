@@ -1,8 +1,6 @@
 import 'package:first_assignment/view/answer.dart';
 import 'package:first_assignment/view/question_appbar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
@@ -84,75 +82,127 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    var screenHeight = MediaQuery.of(context).size.height;
+    //var screenWidth = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(50), child: QuestionAppBar()),
-      body: Column(children: [
-        Padding(
-          padding: const EdgeInsets.only(top: 40),
-          child: Text('question${_questionIndex + 1}/${_questions.length}',
-              style: TextStyle(color: Colors.orange)),
-        ),
-        Padding(
-          padding: const EdgeInsets.only(top: 20, bottom: 30),
-          child: Text(_questions[_questionIndex]['questionText'].toString(),
-              style: TextStyle(
-                  fontSize: 20, color: Color.fromARGB(118, 123, 0, 255))),
-        ),
-        ...(_questions[_questionIndex]['answers'] as List).map(
-          (answer) {
-            var answersIndex = _questions[_questionIndex]['answers'] as List;
-            return Answer(() {
-              setState(() {
-                for (int i = 0; i < 4; i++) {
-                  answersIndex[i]['selected'] = false;
-                }
-                isSelected = true;
-                _score = answer['score'];
-                answer['selected'] = true;
-              });
-            },
-                answer['text'],
-                answer['selected']
-                    ? Color.fromARGB(118, 123, 0, 255)
-                    : Colors.white,
-                answer['selected'] ? Colors.white : Colors.black);
-          },
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: InkWell(
-            onTap: isSelected
-                ? () {
-                    if (_questionIndex < 5) {
-                      setState(() {
-                        _questionIndex++;
-                        _totalScore += _score;
-                        isSelected = false;
-                      });
-                    } else {
-                      _totalScore += _score;
-                      print('Your total score is:${_totalScore}');
-                      _resetQuiz();
-                    }
-                  }
-                : null,
-            child: Container(
-                width: double.infinity,
-                height: 80,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                  color: Color.fromARGB(255, 161, 100, 179),
+      appBar: const PreferredSize(
+          preferredSize: Size.fromHeight(50), child: QuestionAppBar()),
+      body: Column(
+        // ignore: sort_child_properties_last
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(
+                  top: 40,
+                  left: 10,
                 ),
-                child: Center(
-                  child: Text(
-                    'Next',
-                    style: TextStyle(fontSize: 30, color: Colors.white),
-                  ),
-                )),
+                child:
+                    Text('Question ${_questionIndex + 1}/${_questions.length}',
+                        style: const TextStyle(
+                          color: Color(0xffFBB551),
+                          fontWeight: FontWeight.bold,
+                        )),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(
+                    top: 15, bottom: 30, left: 10, right: 60),
+                child:
+                    Text(_questions[_questionIndex]['questionText'].toString(),
+                        style: const TextStyle(
+                          fontSize: 25,
+                          color: Color(0xff545B6C),
+                          fontFamily: 'Sans Serif',
+                          fontWeight: FontWeight.bold,
+                        )),
+              )
+            ],
           ),
-        )
-      ], crossAxisAlignment: CrossAxisAlignment.start),
+          SizedBox(
+            height:
+                screenHeight < 600 ? screenHeight * 0.4 : screenHeight * 0.55,
+            child: ListView.builder(
+                itemBuilder: (ctx, index) {
+                  var answersIndex =
+                      _questions[_questionIndex]['answers'] as List;
+                  return Answer(() {
+                    setState(() {
+                      for (int i = 0; i < 4; i++) {
+                        answersIndex[i]['selected'] = false;
+                      }
+                      isSelected = true;
+                      _score = answersIndex[index]['score'];
+                      answersIndex[index]['selected'] = true;
+                    });
+                  },
+                      answersIndex[index]['text'],
+                      answersIndex[index]['selected']
+                          ? const Color(0xff8B80B6)
+                          : Colors.white,
+                      answersIndex[index]['selected']
+                          ? Colors.white
+                          : const Color(0xff545B6C));
+                  ;
+                },
+                itemCount: 4),
+          ),
+          /* This is the map that got replaced by listview.
+
+           ...(_questions[_questionIndex]['answers'] as List).map(
+             (answer) {
+               var answersIndex = _questions[_questionIndex]['answers'] as List;
+               return Answer(() {
+                 setState(() {
+                   for (int i = 0; i < 4; i++) {
+                     answersIndex[i]['selected'] = false;
+                   }
+                   isSelected = true;
+                   _score = answer['score'];
+                   answer['selected'] = true;
+                 });
+              },
+                   answer['text'],
+                   answer['selected'] ? Color(0xff8B80B6) : Colors.white,
+                   answer['selected'] ? Colors.white : Color(0xff545B6C));
+             },
+ ),*/
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: InkWell(
+              onTap: isSelected
+                  ? () {
+                      if (_questionIndex < 5) {
+                        setState(() {
+                          _questionIndex++;
+                          _totalScore += _score;
+                          isSelected = false;
+                        });
+                      } else {
+                        _totalScore += _score;
+                        print('Your total score is:${_totalScore}');
+                        _resetQuiz();
+                      }
+                    }
+                  : null,
+              child: Container(
+                  width: double.infinity,
+                  height: 80,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                    color: Color(0xff8B80B6),
+                  ),
+                  child: const Center(
+                    child: Text(
+                      'Next',
+                      style: TextStyle(fontSize: 30, color: Colors.white),
+                    ),
+                  )),
+            ),
+          )
+        ],
+        crossAxisAlignment: CrossAxisAlignment.start,
+      ),
     );
   }
 }
