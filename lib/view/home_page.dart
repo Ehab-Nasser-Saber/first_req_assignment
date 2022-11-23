@@ -1,5 +1,5 @@
-import 'package:first_assignment/view/answer.dart';
-import 'package:first_assignment/view/question_appbar.dart';
+import '../view/answer.dart';
+import '../view/question_appbar.dart';
 import 'package:flutter/material.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -67,17 +67,22 @@ class _MyHomePageState extends State<MyHomePage> {
     },
   ];
   int _questionIndex = 0;
-  int _totalScore = 0;
+  int totalScore = 0;
   int _score = 0;
   bool isSelected = false;
 
   void _resetQuiz() {
     setState(() {
       _questionIndex = 0;
-      _totalScore = 0;
+      totalScore = 0;
       _score = 0;
       isSelected = false;
     });
+  }
+
+  void _showResult(BuildContext ctx) {
+    Navigator.of(ctx).pushNamed('/scores-screen',
+        arguments: {'score': totalScore, 'index': _questionIndex + 1});
   }
 
   @override
@@ -183,12 +188,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       if (_questionIndex < 5) {
                         setState(() {
                           _questionIndex++;
-                          _totalScore += _score;
+                          totalScore += _score;
                           isSelected = false;
                         });
                       } else {
-                        _totalScore += _score;
-                        print('Your total score is:${_totalScore}');
+                        totalScore += _score;
+                        print('Your total score is:${totalScore}');
+                        _showResult(context);
                         _resetQuiz();
                       }
                     }
@@ -200,9 +206,9 @@ class _MyHomePageState extends State<MyHomePage> {
                     borderRadius: BorderRadius.all(Radius.circular(8)),
                     color: Color(0xff8B80B6),
                   ),
-                  child: const Center(
+                  child: Center(
                     child: Text(
-                      'Next',
+                      _questionIndex < 5 ? 'Next' : 'Finish',
                       style: TextStyle(fontSize: 30, color: Colors.white),
                     ),
                   )),

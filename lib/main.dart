@@ -1,6 +1,9 @@
-import 'package:first_assignment/view/home_page.dart';
+import 'package:first_assignment/screens/check_answers_screen.dart';
+import 'package:first_assignment/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import './view/home_page.dart';
+import './screens/score_screen.dart';
 
 // void main() {
 
@@ -40,8 +43,13 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(),
+      home: SplashScreen(),
       debugShowCheckedModeBanner: false,
+      routes: {
+        '/scores-screen': (ctx) => ScoreScreen(),
+        '/splash-screen': (ctx) => SplashScreen(),
+        '/check-answers-screen': (ctx) => CheckAnswersScreen(),
+      },
     );
   }
 //}
